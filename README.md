@@ -1,4 +1,4 @@
-![D365O Cheatsheet](https://github.com/anderson-joyle/D365O-Addins/blob/master/D365O_logo_cheatsheet.png)
+![D365O Cheatsheet](https://github.com/anderson-joyle/D365O-Cheatsheet/blob/master/D365O_logo_cheatsheet.png)
 
 [![Donate Crypto](https://img.shields.io/badge/Donate-Crypto-805AFF.svg)](https://github.com/anderson-joyle/D365O-Cheatsheet#donate)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/joyle)
