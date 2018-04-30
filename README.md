@@ -71,10 +71,7 @@ public static container copyCustomStagingToTarget(DMFDefinitionGroupExecution _d
         }
         catch (Exception::Error)
         {
-            ttsbegin;
-            staging.TransferStatus = DMFTransferStatus::Error;
-            staging.update();
-            ttscommit;
+            error("Something wrong has happened.");
         }
     }    
 
