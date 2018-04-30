@@ -95,16 +95,14 @@ public static container copyCustomStagingToTarget(DMFDefinitionGroupExecution _d
     return [staging.RecId, 0];
 }
 ```
-In order to *copyCustomStagingToTarget* be executed, you need to set field *Set-based processing* as TRUE.
-*Data management workspace > Data entities button*
+In order to *copyCustomStagingToTarget* be executed, you need to set field *Set-based processing* as TRUE.  
+*Data management workspace > Data entities button*  
 ![set-based](https://github.com/anderson-joyle/D365O-Cheatsheet/blob/master/prints/set_base_field.PNG)
 
 
 #### mapEntityToDataSource
-**Direction**: Importing
-
-**Purpose**: When importing, use it to fill either datasource or entity fields based on entity fields.
-
+**Direction**: Importing  
+**Purpose**: When importing, use it to fill either datasource or entity fields based on entity fields.  
 **Example**: In *CustCustomerEntity.mapEntityToDataSource()*, *EmployeeResponsibleNumber* field value is used to retrive worker record id and set it into *MainContactWorker* field from entity itself.
 
 ## X++
