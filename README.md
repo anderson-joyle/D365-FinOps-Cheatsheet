@@ -25,7 +25,7 @@ When you struggle to understand a notion, I suggest you look for answers on the 
   * [Data entities](#data-entities)
     + [Copying from staging to target](#copying-from-staging-to-target)
     + Methods
-      - [mapEntityToDataSource](#mapEntityToDataSource)
+      - [mapEntityToDataSource](#mapentitytodatasource)
 - [X++](#x++)
 
 ## General development
