@@ -3,15 +3,6 @@
 [![Donate Crypto](https://img.shields.io/badge/Donate-Crypto-805AFF.svg)](https://github.com/anderson-joyle/D365O-Cheatsheet#donate)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/joyle)
 
-Dynamics 365 AX/Op/FinOp cheatsheet knowledge you will frequently encounter in daily projects.
-
-Kindly note that there are much that can improved. Since that there is no official documentation for add-ins and tons of DLLs available, very likely there are clever ways to use the resources.
-
-> **Note:** This cheatsheet aims primarily D365 version and above. However, there are contents that might apply to AX 2012 as well.
-
-:warning: **Kindly take a look at [issues](https://github.com/anderson-joyle/D365O-Addins/issues) page to be aware of known issues and future improvements.**
-
-## Motivation
 This document is a cheatsheet for Dynamics 365 AX/Op/FinOp you will frequently encounter in projects.
 
 This guide is not intended to teach you X++ or D365 AX/Op/FinOp general development from the ground up, but to help developers with basic knowledge who may struggle to get familiar with some concepts.
@@ -24,10 +15,98 @@ When you struggle to understand a notion, I suggest you look for answers on the 
 - [Microsoft Docs](https://docs.microsoft.com/en-gb/dynamics365/unified-operations/fin-and-ops/) - Official Dynamics 365 AX/Op/FinOp documentation.
 - [StackOverflow tag](https://stackoverflow.com/questions/tagged/dynamics-365-operations) - "dynamics-365-operations" tag on StackOverflow. Currently there is not that much content there, but this is a attempt to encourage you to use it when needed.
 - [AX Community](https://community.dynamics.com/ax) - AX community where thousands of questions has been asked and answered.
-- [Google](https://www.google.com/) - At the end, our best friend!
+- [#MSDyn365FO on Linkedin](https://www.linkedin.com/search/results/content/?facetSortBy=date_posted&keywords=%23MSDyn365FO&origin=SORT_RESULTS) - Official D365FO hashtag on Linkedin.
+- [#MSDyn365FO on Twitter](https://twitter.com/search?f=tweets&vertical=default&q=%23MSDyn365FO&src=typd) - Official D365FO hashtag on Twitter.
 
 ## Table of Contents
-Comming soon.
+- [General development](#general-development)
+  * [Tables](#tables)
+    + [Relationships](#relationships)
+  * [Data entities](#data-entities)
+    + [Copying from staging to target](#copying-from-staging-to-target)
+    + Methods
+      - [mapEntityToDataSource](#mapEntityToDataSource)
+- [X++](#x++)
+
+## General development
+### Tables
+#### Relationships
+> Links in this section refers to AX 2012, but it does apply to 365 versions.
+Kindly take a look at the [official documentation](https://msdn.microsoft.com/en-us/library/hh803131.aspx).
+
+##### RelationType property
+See the [official documentation](https://msdn.microsoft.com/en-us/library/hh803131.aspx)
+
+What relation type should I choose?
+Coming soon.
+
+### Data entities
+#### Copying from staging to target
+
+When importing data into AX using data entities, sometimes there is no way to match data structure between data source (xml file, excel spredsheet, etc) and AX table. For instance:
+  * Single line from a spredsheel source needs to be split amoung table header and table line in D365.
+  * Records creation is assisted by some class and cannot be directly created by DMF (Data Management Framework).
+
+From your data entity, create a new static field following the below template:
+> Kindly note this is a personal quick recommendation. Obviously this code can be improved.
+```csharp
+public static container copyCustomStagingToTarget(DMFDefinitionGroupExecution _dmfDefinitionGroupExecution)
+{
+    CustCustomerStaging staging;
+    CustCustomerStaging stagingUpd;
+    
+    // Iterate through all records with have not been processed
+    while select forupdate staging
+        where staging.ExecutionId    == _dmfDefinitionGroupExecution.ExecutionId
+        &&   (staging.TransferStatus == DMFTransferStatus::NotStarted || staging.TransferStatus == DMFTransferStatus::Validated)
+    {
+        try
+        {
+            ttsbegin;
+            // Do your stuff
+
+            staging.TransferStatus = DMFTransferStatus::Completed;
+            staging.update();
+            ttscommit;
+        }
+        catch (Exception::Error)
+        {
+            ttsbegin;
+            staging.TransferStatus = DMFTransferStatus::Error;
+            staging.update();
+            ttscommit;
+        }
+    }    
+
+    ttsbegin;
+    update_recordset staging
+        setting TransferStatus = DMFTransferStatus::Error
+        where staging.DefinitionGroup == _dmfDefinitionGroupExecution.DefinitionGroup
+        &&    staging.ExecutionId     == _dmfDefinitionGroupExecution.ExecutionId
+        &&   (staging.TransferStatus == DMFTransferStatus::NotStarted || staging.TransferStatus == DMFTransferStatus::Validated);
+    ttscommit;
+
+    // Method returns a container containing the quantities of inserted and updated records.
+    select count(RecId) from staging
+        where staging.DefinitionGroup == _dmfDefinitionGroupExecution.DefinitionGroup
+            && staging.ExecutionId == _dmfDefinitionGroupExecution.ExecutionId
+            && staging.TransferStatus == DMFTransferStatus::Completed;
+
+    return [staging.RecId, 0];
+}
+```
+In order to *copyCustomStagingToTarget* be executed, you need to set field *Set-based processing* as TRUE.
+*Data management workspace > Data entities button*
+![set-based](https://github.com/anderson-joyle/D365O-Cheatsheet/blob/master/prints/set_base_field.png)
+
+
+#### mapEntityToDataSource
+**Direction**: Importing
+**Purpose**: When importing, use it to fill either datasource or entity fields based on entity fields.
+**Example**: In *CustCustomerEntity.mapEntityToDataSource()*, *EmployeeResponsibleNumber* field value is used to retrive worker record id and set it into *MainContactWorker* field from entity itself.
+
+## X++
+Coming soon.
 
 ## Donate
 If this project helped you in any way and you feel like supporting me:
