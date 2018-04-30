@@ -40,7 +40,7 @@ See the [official documentation](https://msdn.microsoft.com/en-us/library/hh8031
 What relation type should I choose?
 Coming soon.
 
-### Data entities
+### [Data entities](https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/data-entities/build-consuming-data-entities?toc=/fin-and-ops/toc.json)
 #### Copying from staging to target
 
 When importing data into AX using data entities, sometimes there is no way to match data structure between data source (xml file, excel spredsheet, etc) and AX table. For instance:
