@@ -24,7 +24,7 @@ When you struggle to understand a notion, I suggest you look for answers on the 
     + [Relationships](#relationships)
   * [Data entities](#data-entities)
     + [Copying from staging to target](#copying-from-staging-to-target)
-    + Methods
+    + [Methods](#entity-methods)
       - [mapEntityToDataSource](#mapentitytodatasource)
 - [X++](#x++)
 
@@ -92,15 +92,33 @@ public static container copyCustomStagingToTarget(DMFDefinitionGroupExecution _d
     return [staging.RecId, 0];
 }
 ```
-In order to *copyCustomStagingToTarget* be executed, you need to set field *Set-based processing* as TRUE.  
+In order to *copyCustomStagingToTarget* be executed, you need to set field *Set-based processing* as **TRUE**.  
 *Data management workspace > Data entities button*  
 ![set-based](https://github.com/anderson-joyle/D365O-Cheatsheet/blob/master/prints/set_base_field.PNG)
 
+#### Handling errors messages
+Basically there are two types of data entities errors messages: from *View excecution log* message and *View staging data* message. *View excecution log* displays messages in macro way e.g. "Could not connect into system X", while *View staging data* displays messages to each distinct staging table record.
 
-#### mapEntityToDataSource
-**Direction**: Importing  
-**Purpose**: When importing, use it to fill either datasource or entity fields based on entity fields.  
-**Example**: In *CustCustomerEntity.mapEntityToDataSource()*, *EmployeeResponsibleNumber* field value is used to retrive worker record id and set it into *MainContactWorker* field from entity itself.
+##### Creating logs in *View excecution log*
+Any message printed during DMF execcution (info, warning and error) will end up being displayed in *View excecution log* area.
+
+##### Creating logs in *View staging data*
+To display custom log message to specifics staging records, use the following snippet:  
+```csharp
+DMFStagingValidationLog::insertLogs(_dmfDefinitionGroupExecution.DefinitionGroup,
+                                    _dmfDefinitionGroupExecution.ExecutionId,
+                                    DMFEntity::find(_dmfDefinitionGroupExecution.Entity),
+                                    staging.RecId,
+                                    "",
+                                    "My custom log message",
+                                    DMFSourceTarget::Target);
+```
+
+#### Entity methods
+##### mapEntityToDataSource
+* **Direction**: Importing  
+* **Purpose**: When importing, use it to fill either datasource or entity fields based on entity fields.  
+* **Example**: In *CustCustomerEntity.mapEntityToDataSource()*, *EmployeeResponsibleNumber* field value is used to retrive worker record id and set it into *MainContactWorker* field from entity itself.
 
 ## X++
 Coming soon.
