@@ -127,6 +127,7 @@ DMFStagingValidationLog::insertLogs(_dmfDefinitionGroupExecution.DefinitionGroup
 Sometimes we get very generic erros while rendering reports from browser and Event Viewer doesnt help much. Checking reporting service log files is the best way to find out the reason:
 
 <i>C:\Program Files\Microsoft SQL Server\ <i>SQL_INSTANCE</i> \Reporting Services\LogFiles</i>
+> You may find this [addin](https://github.com/anderson-joyle/D365FO-ReportLatestLogFile) useful.
 
 ## X++
 Coming soon.
