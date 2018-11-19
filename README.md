@@ -26,6 +26,8 @@ When you struggle to understand a notion, I suggest you look for answers on the 
     + [Copying from staging to target](#copying-from-staging-to-target)
     + [Methods](#entity-methods)
       - [mapEntityToDataSource](#mapentitytodatasource)
+  * [Reports](#reports)
+    + [Logging](#logging)
 - [X++](#x++)
 
 ## General development
@@ -119,6 +121,12 @@ DMFStagingValidationLog::insertLogs(_dmfDefinitionGroupExecution.DefinitionGroup
 * **Direction**: Importing  
 * **Purpose**: When importing, use it to fill either datasource or entity fields based on entity fields.  
 * **Example**: In *CustCustomerEntity.mapEntityToDataSource()*, *EmployeeResponsibleNumber* field value is used to retrive worker record id and set it into *MainContactWorker* field from entity itself.
+
+### Reports
+#### Logging
+Sometimes we get very generic erros while rendering reports from browser and Event Viewer doesnt help much. Checking reporting service log files is the best way to find out the reason:
+
+<i>C:\Program Files\Microsoft SQL Server\ <i>SQL_INSTANCE</i> \Reporting Services\LogFiles</i>
 
 ## X++
 Coming soon.
