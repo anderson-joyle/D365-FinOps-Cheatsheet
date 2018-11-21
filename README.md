@@ -29,6 +29,8 @@ When you struggle to understand a notion, I suggest you look for answers on the 
   * [Reports](#reports)
     + [Logging](#logging)
 - [X++](#x++)
+- [Pro tips](#pro-tips)
+    * [Visual Studio](#visual-studio)
 
 ## General development
 ### Tables
@@ -131,6 +133,20 @@ Sometimes we get very generic erros while rendering reports from browser and Eve
 
 ## X++
 Coming soon.
+
+## Pro tips
+### Visual Studio
+#### Keyboard shortcuts
+Keyboard is by far the most efficient way to input data and execute commands. Although is a good idea to get familiar with Dynamics 365 default shortcuts, they are not good. For my personal taste, a good shortcut should be:
+* Performed with one hand
+* Easily memorizable (easy keys/combinations)
+* Ergonimic
+
+It might be really useful to define your own shortcuts. Bellow I list how I usually setup my own in Visual Studio:
+* Build models: Ctrl + Space, Ctrl + Space
+* Sync database: Shift + Space, Shift + Space
+* Add new item (project): Ctrl + Shift + Space, Ctrl + Shift + Space
+
 
 ## Donate
 If this project helped you in any way and you feel like supporting me:
