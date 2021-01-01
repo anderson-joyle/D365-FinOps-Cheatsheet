@@ -23,7 +23,11 @@ When you struggle to understand a notion, I suggest you look for answers on the 
   * [Tables](#tables)
     + [Relationships](#relationships)
   * [Data entities](#data-entities)
-    + [Copying from staging to target](#copying-from-staging-to-target)
+    + [Custom from staging to target](#custom-from-staging-to-target)
+    + [Exporting large amounts of data](#exporting-large-amounts-of-data)
+    + [Handling errors messages](#handling-errors-messages)
+      - [Creating logs in View excecution log](#creating-logs-in-view-excecution-log)
+      - [Creating logs in View staging data](#creating-logs-in-view-staging-data)
     + [Methods](#entity-methods)
       - [mapEntityToDataSource](#mapentitytodatasource)
   * [Reports](#reports)
@@ -45,7 +49,7 @@ What relation type should I choose?
 Coming soon.
 
 ### [Data entities](https://docs.microsoft.com/en-us/dynamics365/unified-operations/dev-itpro/data-entities/build-consuming-data-entities?toc=/fin-and-ops/toc.json)
-#### Copying from staging to target
+#### Custom from staging to target
 
 When importing data into AX using data entities, sometimes there is no way to match data structure between data source (xml file, excel spredsheet, etc) and AX table. For instance:
   * Single line from a spredsheel source needs to be split amoung table header and table line in D365.
@@ -99,6 +103,11 @@ public static container copyCustomStagingToTarget(DMFDefinitionGroupExecution _d
 In order to *copyCustomStagingToTarget* be executed, you need to set field *Set-based processing* as **TRUE**.  
 *Data management workspace > Data entities button*  
 ![set-based](https://github.com/anderson-joyle/D365O-Cheatsheet/blob/master/prints/set_base_field.PNG)
+
+#### Exporting large amounts of data
+A list of few things to take into consideration before exporting a millions of records:
+* Do your best to skip staging. This wont be possible if your entity has any computed field or container field. Data management will info about any other field type that is preventing your to skip staging.
+* When exporting to a BYOD, make sure you have enough [DTU](https://docs.microsoft.com/en-gb/azure/azure-sql/database/service-tiers-dtu) assigned to your target Azure database.
 
 #### Handling errors messages
 Basically there are two types of data entities errors messages: from *View excecution log* message and *View staging data* message. *View excecution log* displays messages in macro way e.g. "Could not connect into system X", while *View staging data* displays messages to each distinct staging table record.
